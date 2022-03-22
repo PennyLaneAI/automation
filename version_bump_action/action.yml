@@ -1,0 +1,43 @@
+name: 'Version Bump Action'
+description: 'Apply version bump logic to provided repo'
+inputs:
+  version_path:
+    description: 'Path to _version.py file'
+    required: true
+    default: './'
+
+  changelog_path:
+    description: 'Path to CHANGELOG.txt file'
+    required: true
+    default: './'
+
+  release_status:
+    description: 'String which is either "pre_release" or "post_release" depending on type of version bump'
+    required: true
+    default: 'pre_release'
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo Version Path ${{ inputs.version_path }}.
+      shell: bash
+    - run: echo Changelog Path ${{ inputs.changelog_path }}.
+      shell: bash
+    - run: echo Release type ${{ inputs.release_status }}.
+      shell: bash
+
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Run version bump
+    - run: >
+        python $GITHUB_ACTION_PATH/vb_script.py
+        --version_path ${{ inputs.version_path }}
+        --changelog_path ${{ inputs.changelog_path }}
+        --release_type ${{ inputs.release_status }}
+      shell: bash

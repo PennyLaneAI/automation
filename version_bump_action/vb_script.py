@@ -180,11 +180,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--version_path", type=str, required=True, help="Path to the _version.py file")
     parser.add_argument("--changelog_path", type=str, required=True, help="Path to the changelog")
-    parser.add_argument("--pre_release", dest="release_status", action="store_true",
-                        help="True if this is a pre-release version bump, False if it is post release")
-    parser.add_argument("--post_release", dest="release_status", action="store_false",
-                        help="True if this is a pre-release version bump, False if it is post release")
+    parser.add_argument("--release_type", type=str, required=True,
+                        help="Either 'pre_release' or 'post_release', depending on release type")
 
     args = parser.parse_args()
-    updated_version = update_version_file(args.version_path, args.release_status)
-    update_changelog(args.changelog_path, updated_version, args.release_status)
+
+    if args.release_type == "pre_release":
+        release_status = True
+    elif args.release_type == "post_release":
+        release_status = False
+    else:
+        raise ValueError(f"Expected either 'pre_release' or 'post_release', got {args.release_type}")
+
+    updated_version = update_version_file(args.version_path, release_status)
+    update_changelog(args.changelog_path, updated_version, release_status)
