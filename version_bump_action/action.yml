@@ -46,4 +46,5 @@ runs:
         --version_path ${{ inputs.version_path }}
         --changelog_path ${{ inputs.changelog_path }}
         --release_type ${{ inputs.release_status }}
+        --changelog_template $GITHUB_ACTION_PATH/changelog_template.txt
       shell: bash

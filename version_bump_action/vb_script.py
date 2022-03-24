@@ -133,7 +133,7 @@ def remove_empty_headers(lines):
     return cleaned_lines
 
 
-def update_changelog(path, new_version, pre_release=True):
+def update_changelog(path, new_version, pre_release=True, changelog_template="./changelog_template.txt"):
     """ Updates the Changelog file depending on whether it's a pre-release
     or post-release version bump.
 
@@ -142,6 +142,8 @@ def update_changelog(path, new_version, pre_release=True):
         new_version (str): The bumped version string.
         pre_release (bool): A flag which determines if this is a
             pre-release or post-release version bump.
+        changelog_template (str): Path to the changelog_template.txt
+            file which contains the template to update changelog.
     """
     with open(path, 'r', encoding="utf8") as f:
         lines = f.readlines()
@@ -153,7 +155,7 @@ def update_changelog(path, new_version, pre_release=True):
 
     with open(path, 'w', encoding="utf8") as f:
         if not pre_release:  # post_release append template to top of the changelog
-            with open("./changelog_template.txt", 'r', encoding="utf8") as template_f:
+            with open(changelog_template, 'r', encoding="utf8") as template_f:
                 template_lines = template_f.readlines()
                 template_lines[0] = template_lines[0].replace('x.x.x-dev', new_version)
                 f.writelines(template_lines)
@@ -182,6 +184,7 @@ if __name__ == "__main__":
     parser.add_argument("--changelog_path", type=str, required=True, help="Path to the changelog")
     parser.add_argument("--release_type", type=str, required=True,
                         help="Either 'pre_release' or 'post_release', depending on release type")
+    parser.add_argument("--changelog_template", type=str, required=True, help="Path to changelog template")
 
     args = parser.parse_args()
 
@@ -193,4 +196,4 @@ if __name__ == "__main__":
         raise ValueError(f"Expected either 'pre_release' or 'post_release', got {args.release_type}")
 
     updated_version = update_version_file(args.version_path, release_status)
-    update_changelog(args.changelog_path, updated_version, release_status)
+    update_changelog(args.changelog_path, updated_version, release_status, args.changelog_template)
