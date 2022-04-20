@@ -61,7 +61,8 @@ def bump_version(version_line, pre_release):
 
     split_version = curr_version.split(".")  # "0.17.0" --> ["0,17,0"]
     split_version[1] = str(int(split_version[1]) + 1)  # take middle value and cast as int and bump it by 1
-
+    split_version[2] = '0"'  # reset last value in case PL or the plugin had any bug fix releases for prev version
+                             # eg: ["0,22,1"] --> ["0,23,0"] 
     if not pre_release:
         split_version[2] = split_version[2].replace('"', '-dev"')  # add -dev, ["0,18,0"] --> ["0,18,0-dev"]
 
