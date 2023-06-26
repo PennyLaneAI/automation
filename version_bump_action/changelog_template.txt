@@ -1,18 +1,18 @@
 # Release x.x.x-dev
 
-<h3>New features since last release</h3>
+### New features since last release
 
-<h3>Improvements 🛠</h3>
+### Improvements 🛠
 
-<h3>Breaking changes 💔</h3>
+### Breaking changes 💔
 
-<h3>Deprecations 👋</h3>
+### Deprecations 👋
 
-<h3>Documentation 📝</h3>
+### Documentation 📝
 
-<h3>Bug fixes 🐛</h3>
+### Bug fixes 🐛
 
-<h3>Contributors ✍️</h3>
+### Contributors ✍️
 
 This release contains contributions from (in alphabetical order):
 
